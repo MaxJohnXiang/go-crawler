@@ -17,7 +17,7 @@ func ParserCityList (contents []byte) engine.ParseResult{
 			ParserFunc: ParseCity,
 		})
 		limit --
-		if limit == 9 {
+		if limit == 5 {
 			break
 		}
 	}

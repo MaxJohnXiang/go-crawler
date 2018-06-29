@@ -7,7 +7,7 @@ import (
 	"crawler/model"
 )
 
-var ageRe = regexp.MustCompile(`<td><span class="label"> 年龄:</span>([\d]+)岁</td>`)
+var ageRe = regexp.MustCompile(`<td><span class="label">年龄：</span>([\d]+)岁</td>`)
 var heightRe = regexp.MustCompile(`<td><span class="label">身高：</span><span field="">([\d]+)CM</span></td>`)
 var weightRe = regexp.MustCompile(`<td><span class="label">体重：</span><span field="">([\d]+)KG</span></td>`)
 var genderRe = regexp.MustCompile(`<td><span class="label">性别：</span><span field="">([^<]+)</span></td>`)
@@ -22,57 +22,44 @@ var carRe = regexp.MustCompile(`<td><span class="label">是否购车：</span><s
 func ParseProfile(contents []byte, name string) engine.ParseResult {
 	profile := model.Profile{}
 	//int
-	age, err := strconv.Atoi(extractString(contents, ageRe))
-	if err != nil {
+	profile.Name = name
+	age1 := extractString(contents, ageRe)
+	age, err := strconv.Atoi(age1)
+	if err == nil {
 		profile.Age = age
 	}
 	height, err := strconv.Atoi(extractString(contents, heightRe))
-	if err != nil {
+	if err == nil {
 		profile.Height = height
 	}
 	weight, err := strconv.Atoi(extractString(contents, weightRe))
-	if err != nil {
+	if err == nil {
 		profile.Weight = weight
 	}
 	gender := extractString(contents, genderRe)
-	if err != nil {
-		profile.Gender = gender
-	}
+	profile.Gender = gender
 
 	income := extractString(contents, incomeRe)
-	if err != nil {
-		profile.Income = income
-	}
+	profile.Income = income
 
 	marriage := extractString(contents, marriageRe)
-	if err != nil {
-		profile.Marriage = marriage
-	}
+	profile.Marriage = marriage
 
 	education := extractString(contents, educationRe)
-	if err != nil {
-		profile.Education = education
-	}
+	profile.Education = education
 
 	occupation := extractString(contents, occupationRe)
-	if err != nil {
-		profile.Occupation = occupation
-	}
+	profile.Occupation = occupation
 
 	hukou := extractString(contents, hukouRe)
-	if err != nil {
-		profile.Hukou = hukou
-	}
+	profile.Hukou = hukou
 
 	house := extractString(contents, houseRe)
-	if err != nil {
-		profile.Hourse = house
-	}
+	profile.Hourse = house
 
 	car := extractString(contents, carRe)
-	if err != nil {
-		profile.Car = car
-	}
+	profile.Car = car
+
 	result := engine.ParseResult{
 		Items: []interface{}{profile},
 	}
@@ -84,6 +71,6 @@ func extractString(contents []byte, re *regexp.Regexp) string {
 	if len(match) >= 2 {
 		return string(match[1])
 	} else {
-		return ""
+		return string(1)
 	}
 }
