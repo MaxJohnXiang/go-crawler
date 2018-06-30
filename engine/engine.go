@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"crawler/fetcher"
 	"log"
 )
 
@@ -27,13 +26,4 @@ func Run(seeds ...Request) {
 	}
 }
 
-func worker(r Request) (ParseResult, error ){
-		body ,err := fetcher.Fetch(r.Url)
-		log.Printf("Fetching %s", r.Url)
-		if err != nil {
-			log.Printf("Fetcher error :" + "fetching url %s: %v" ,r.Url, err)
-			return ParseResult{}, err
-		}
-		parseResult := r.ParserFunc(body)
-	return parseResult, err
-}
+
